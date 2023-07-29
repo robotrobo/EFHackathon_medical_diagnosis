@@ -3,16 +3,18 @@ from time import sleep
 import random
 from backend import prep_chain, get_final_analysis
 import json
-from testconvo import testConvo, chunk_string
+from util import chunk_string
+from whisper_functions import create_transcription
+
 def start_conversation(patient_info):
 	chain = prep_chain()
 	st.subheader('Conversation Transcript')
-		 
-	messages = chunk_string(testConvo)
+	print("Parsing file")	 
+	messages = chunk_string(create_transcription("audio.mp3"))
+	print("Done parsing!")
 	overall_analysis = []
 	for message in messages:
-			st.text(message)
-
+			st.write(message)
 			result = chain({"question": message, "chat_history": [], "patient_info": patient_info})
 			print(result)
 			chat_answer = result["answer"]

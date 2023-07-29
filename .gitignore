@@ -2,3 +2,4 @@ datasets/*
 vectorstore.faiss/*
 **/__pycache__
 .DS_Store
+**/*.mp3

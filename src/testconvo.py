@@ -258,6 +258,4 @@ D: Yeah, so I think I it, X-Ray would be the first step here because from what y
 
 P: OK, OK, that sounds good. Thank you."""
 
-def chunk_string(input_string, chunk_size=1000):
-    return [input_string[0+i:chunk_size+i] for i in range(0, len(input_string), chunk_size)]
 
