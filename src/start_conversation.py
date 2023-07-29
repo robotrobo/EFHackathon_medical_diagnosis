@@ -10,7 +10,8 @@ def start_conversation(patient_info):
 	chain = prep_chain()
 	st.subheader('Conversation Transcript')
 	print("Parsing file")	 
-	messages = chunk_string(create_transcription("audio.mp3"))
+	with st.spinner("Parsing audio file..."):
+		messages = chunk_string(create_transcription("audio_4_mins.mp3"))
 	print("Done parsing!")
 	overall_analysis = []
 	for message in messages:
@@ -42,6 +43,7 @@ def start_conversation(patient_info):
 			except Exception as e:
 				print(e)
 	st.divider()
-	analysis = get_final_analysis(overall_analysis)
-	st.subheader("Final Analysis")
-	st.write(analysis)
+	with st.spinner("Generating final analysis..."):
+		analysis = get_final_analysis(overall_analysis)
+		st.subheader("Final Analysis")
+		st.write(analysis)

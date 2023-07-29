@@ -35,8 +35,11 @@ def create_transcription(audio_file) -> str:
           (info.language, info.language_probability))
 
     print("Beginning transcription...")
-
+    result = ""
     segments = list(segments)
 
-    return "".join([f"\n({seg.start:.2f}:{seg.end:.2f})" + seg.text for seg in segments])
+    for seg in segments:
+        result += f"\n({seg.start:.1f}s:{seg.end:.1f}s)" + seg.text
+
+    return result
 
