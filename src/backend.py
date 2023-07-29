@@ -12,6 +12,9 @@ from langchain.chat_models import ChatOpenAI
 from langchain.chains import ConversationalRetrievalChain
 from langchain.memory import ConversationBufferWindowMemory
 from langchain.prompts import ChatPromptTemplate, SystemMessagePromptTemplate, HumanMessagePromptTemplate
+from langchain.schema import SystemMessage, HumanMessage
+from langchain.chains import load_chain
+
 ########################
 from prompts import system_message_prompt, human_message_prompt
 ########################
@@ -65,7 +68,8 @@ def create_chain(db):
     }
     qa = ConversationalRetrievalChain.from_llm(llm=llm, retriever=db.as_retriever(), combine_docs_chain_kwargs=combine_docs_chain_kwargs)
     return qa
-def main():
+
+def prep_chain():
     # If the vectorstore exists, just use it
     if os.path.exists(VECTORSTORE_FILE_NAME):
         print("Using loaded vectordb")
@@ -76,6 +80,16 @@ def main():
         db = create_vector_store(split_docs)
 
     chain = create_chain(db)
+    return chain
+def get_final_analysis(overall_analysis: dict):
+
+    final_analysis_model = ChatOpenAI(model_name="gpt-4", temperature=0)
+    messages = [SystemMessage(content="You are a summariser model that can summarise medical diagnoses."), HumanMessage(content=f"Summarise the given diagnostic data into a final report.\n{str(overall_analysis)}")]
+    return final_analysis_model(messages).content
+
+
+def main():
+    chain = prep_chain()
     query = """Hey, how is your day going 
     I have a headache.
     How long have you had it?

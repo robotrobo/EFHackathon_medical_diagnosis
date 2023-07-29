@@ -1,0 +1,5 @@
+Age: 25,
+Gender: Male,
+Occupation: Student,
+Family medical history: Unknown,
+Past Medical history: Wrist surgery
