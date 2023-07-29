@@ -1,0 +1,3 @@
+datasets/*
+vectorstore.faiss/*
+**/__pycache__
